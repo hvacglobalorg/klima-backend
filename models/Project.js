@@ -1,5 +1,16 @@
 const mongoose = require('mongoose');
 
+const unitSchema = new mongoose.Schema({
+  type: String,
+  fanFlow: String,
+  fanPressure: String,
+  aspFlow: String,
+  aspPressure: String,
+  heatingNeed: String,
+  coolingNeed: String,
+  reheaterNeed: String,
+});
+
 const projectSchema = new mongoose.Schema({
   userId: {
     type: mongoose.Schema.Types.ObjectId,
@@ -7,25 +18,35 @@ const projectSchema = new mongoose.Schema({
     ref: 'User',
   },
   projectName: {
+  type: String,
+  required: true,
+  default: 'Yeni Proje',
+},
+
+  location: {
     type: String,
-    required: true,
+    default: 'Belirtilmedi',
   },
-  location: String,
-  altitude: Number,
-  winterDryTemp: Number,
-  summerDryTemp: Number,
-  summerWetTemp: Number,
-  units: [
-    {
-      type: String,
-      fanFlow: String,
-      fanPressure: String,
-      aspFlow: String,
-      aspPressure: String,
-      heatingNeed: String,
-      coolingNeed: String,
-    },
-  ],
+  altitude: {
+    type: Number,
+    default: null,
+  },
+  winterDryTemp: {
+    type: Number,
+    default: null,
+  },
+  summerDryTemp: {
+    type: Number,
+    default: null,
+  },
+  summerWetTemp: {
+    type: Number,
+    default: null,
+  },
+  units: {
+    type: [unitSchema],
+    default: [],
+  },
   createdAt: {
     type: Date,
     default: Date.now,
