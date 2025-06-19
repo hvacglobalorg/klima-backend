@@ -60,6 +60,29 @@ router.post('/', verifyToken, async (req, res) => {
   }
 });
 
+// ✅ Mevcut projeyi güncelle (edit mode için)
+router.put('/:id', verifyToken, async (req, res) => {
+  try {
+    console.log('🛠️ [PUT] /api/projects/:id çağrıldı');
+    const updatedProject = await Project.findOneAndUpdate(
+      { _id: req.params.id, userId: req.user.id },
+      req.body,
+      { new: true }
+    );
+
+    if (!updatedProject) {
+      console.warn('🚫 Güncellenecek proje bulunamadı:', req.params.id);
+      return res.status(404).json({ message: 'Proje bulunamadı veya yetkisiz erişim' });
+    }
+
+    console.log('✅ Proje güncellendi:', updatedProject._id);
+    return res.json(updatedProject);
+  } catch (err) {
+    console.error('❌ Proje güncellenemedi:', err);
+    return res.status(500).json({ message: 'Proje güncellenemedi', error: err.message });
+  }
+});
+
 // ✅ Projeyi sil
 router.delete('/:id', verifyToken, async (req, res) => {
   try {
