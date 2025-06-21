@@ -1,5 +1,6 @@
 const express = require('express');
 const projectRoutes = require('./routes/projectRoutes'); // Proje rotaları
+const adminRoutes = require('./routes/admin');
 const cors = require('cors');
 const mongoose = require('mongoose');
 require('dotenv').config(); // .env dosyasını yükler
@@ -37,7 +38,12 @@ app.use('/api/auth', authRoutes);
 // Project rotalarını ekle (sadece bu satırı ekle)
 app.use('/api/projects', projectRoutes);
 
+
+app.use('/api/admin', adminRoutes);
+
 // Sunucuyu başlat
 app.listen(port, () => {
   console.log(`🚀 Sunucu http://localhost:${port} adresinde çalışıyor`);
 });
+
+
